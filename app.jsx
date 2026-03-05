@@ -321,7 +321,6 @@ const App = () => {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <h1 className="text-sm font-black tracking-[0.2em] uppercase">GamePay</h1>
                 <div className="bg-white/10 p-2 rounded-full">
                   <Bell size={18} />
                 </div>
