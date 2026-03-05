@@ -103,6 +103,10 @@ const App = () => {
       setTimeout(() => {
         setIsLoggingIn(false);
         setAuthState('authenticated');
+        // Jika admin, langsung ke admin dashboard
+        if (adminStatus) {
+          setActiveTab('admin-dashboard');
+        }
       }, 1500);
     } catch (error) {
       console.error('Error decoding token:', error);
