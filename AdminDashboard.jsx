@@ -72,10 +72,10 @@ const AdminDashboard = ({ userData, onLogout, onBackToUser }) => {
   // Sidebar Items
   const sidebarItems = [
     { id: 'dashboard', label: 'Dashboard', icon: <Home size={20} /> },
-    { id: 'transactions', label: 'Transaksi', icon: <ShoppingCart size={20} /> },
-    { id: 'users', label: 'Pengguna', icon: <Users size={20} /> },
-    { id: 'products', label: 'Produk', icon: <Package size={20} /> },
-    { id: 'account', label: 'Kelola Akun', icon: <User size={20} /> },
+    { id: 'topup', label: 'Top Up', icon: <PlusCircle size={20} /> },
+    { id: 'transactions', label: 'Transactions', icon: <ShoppingCart size={20} /> },
+    { id: 'wallet', label: 'Wallet', icon: <Wallet size={20} /> },
+    { id: 'settings', label: 'Settings', icon: <Settings size={20} /> },
   ];
 
   const handleSaveBalance = () => {
@@ -440,101 +440,77 @@ const AdminDashboard = ({ userData, onLogout, onBackToUser }) => {
           </div>
         )}
 
-        {/* Account Management Page */}
-        {activeMenu === 'account' && (
+        {/* Top Up Page */}
+        {activeMenu === 'topup' && (
           <div className="space-y-6 animate-in fade-in duration-500">
             <div>
-              <h2 className="text-2xl md:text-3xl font-black text-slate-800">Kelola Akun</h2>
-              <p className="text-sm text-slate-500 mt-1">Atur profil dan saldo admin</p>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-800">Top Up</h2>
+              <p className="text-sm text-slate-500 mt-1">Top up your account balance</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Admin Profile */}
-              <div className="bg-white p-6 rounded-xl border border-slate-200">
-                <h3 className="text-lg font-bold text-slate-800 mb-4">Profil Admin</h3>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">Nama</label>
-                    <input 
-                      type="text" 
-                      defaultValue={userData?.name || 'Admin'} 
-                      className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:border-emerald-500 text-sm"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">Email</label>
-                    <input 
-                      type="email" 
-                      defaultValue={userData?.email || 'admin@gamepay.com'} 
-                      className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:border-emerald-500 text-sm"
-                    />
-                  </div>
-                  <button className="w-full px-4 py-2.5 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 font-medium transition-colors text-sm">
-                    Simpan Perubahan
-                  </button>
-                </div>
-              </div>
-
-              {/* Saldo Editor */}
-              <div className="bg-white p-6 rounded-xl border border-slate-200">
-                <h3 className="text-lg font-bold text-slate-800 mb-4">Edit Saldo</h3>
-                <div className="space-y-4">
-                  {!editingBalance ? (
-                    <>
-                      <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-2">Saldo Saat Ini</label>
-                        <div className="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
-                          <p className="text-2xl font-black text-emerald-600">{adminBalance}</p>
-                        </div>
-                      </div>
-                      <button 
-                        onClick={() => setEditingBalance(true)}
-                        className="w-full px-4 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-medium transition-colors flex items-center justify-center gap-2 text-sm"
-                      >
-                        <Edit size={18} /> Edit Saldo
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-2">Masukkan Angka (tanpa Rp)</label>
-                        <input 
-                          type="number" 
-                          value={balanceInput}
-                          onChange={(e) => setBalanceInput(e.target.value)}
-                          placeholder="Contoh: 2450000"
-                          className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:border-emerald-500 text-sm"
-                        />
-                      </div>
-                      <div className="flex gap-2">
-                        <button 
-                          onClick={handleSaveBalance}
-                          className="flex-1 px-4 py-2.5 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 font-medium transition-colors flex items-center justify-center gap-2 text-sm"
-                        >
-                          <Save size={18} /> Simpan
-                        </button>
-                        <button 
-                          onClick={() => setEditingBalance(false)}
-                          className="flex-1 px-4 py-2.5 bg-slate-300 text-slate-700 rounded-lg hover:bg-slate-400 font-medium transition-colors text-sm"
-                        >
-                          Batal
-                        </button>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Security Settings */}
             <div className="bg-white p-6 rounded-xl border border-slate-200">
-              <h3 className="text-lg font-bold text-slate-800 mb-4">Keamanan</h3>
-              <div className="space-y-3">
-                <button className="w-full px-4 py-2.5 border border-slate-300 rounded-lg hover:bg-slate-50 font-medium transition-colors text-sm">
-                  Ubah Password
-                </button>
-                <button className="w-full px-4 py-2.5 border border-slate-300 rounded-lg hover:bg-slate-50 font-medium transition-colors text-sm">
-                  Aktifkan 2FA
+              <h3 className="text-lg font-bold text-slate-800 mb-4">Top Up Options</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-4 border border-slate-200 rounded-lg hover:shadow-md transition-all cursor-pointer">
+                  <h4 className="font-bold text-slate-800">Rp 50.000</h4>
+                  <p className="text-sm text-slate-500">Bonus: Rp 2.500</p>
+                </div>
+                <div className="p-4 border border-slate-200 rounded-lg hover:shadow-md transition-all cursor-pointer">
+                  <h4 className="font-bold text-slate-800">Rp 100.000</h4>
+                  <p className="text-sm text-slate-500">Bonus: Rp 5.000</p>
+                </div>
+                <div className="p-4 border border-slate-200 rounded-lg hover:shadow-md transition-all cursor-pointer">
+                  <h4 className="font-bold text-slate-800">Rp 200.000</h4>
+                  <p className="text-sm text-slate-500">Bonus: Rp 10.000</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Wallet Page */}
+        {activeMenu === 'wallet' && (
+          <div className="space-y-6 animate-in fade-in duration-500">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-800">Wallet</h2>
+              <p className="text-sm text-slate-500 mt-1">Manage your wallet balance</p>
+            </div>
+
+            <div className="bg-white p-6 rounded-xl border border-slate-200">
+              <h3 className="text-lg font-bold text-slate-800 mb-4">Current Balance</h3>
+              <div className="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+                <p className="text-2xl font-black text-emerald-600">{adminBalance}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Settings Page */}
+        {activeMenu === 'settings' && (
+          <div className="space-y-6 animate-in fade-in duration-500">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-800">Settings</h2>
+              <p className="text-sm text-slate-500 mt-1">Configure your account settings</p>
+            </div>
+
+            <div className="bg-white p-6 rounded-xl border border-slate-200">
+              <h3 className="text-lg font-bold text-slate-800 mb-4">Account Settings</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">Notification Preferences</label>
+                  <div className="space-y-2">
+                    <label className="flex items-center">
+                      <input type="checkbox" className="mr-2" defaultChecked />
+                      Email notifications
+                    </label>
+                    <label className="flex items-center">
+                      <input type="checkbox" className="mr-2" />
+                      SMS notifications
+                    </label>
+                  </div>
+                </div>
+                <button className="w-full px-4 py-2.5 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 font-medium transition-colors text-sm">
+                  Save Settings
                 </button>
               </div>
             </div>
