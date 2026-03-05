@@ -98,16 +98,13 @@ const AdminDashboard = ({ userData, onLogout, onBackToUser }) => {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
-              className="md:hidden p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-700"
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-700"
             >
               {isMobileSidebarOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <div className="hidden md:block">
-              <h1 className="text-xl font-black text-emerald-600">GamePay</h1>
-              <p className="text-xs text-slate-400">Admin Panel</p>
-            </div>
-            <div className="md:hidden">
-              <h1 className="text-lg font-black text-emerald-600">GamePay</h1>
+            <div>
+              <h1 className="text-lg md:text-xl font-black text-emerald-600">GamePay</h1>
+              <p className="text-xs text-slate-400 md:block hidden">Admin Panel</p>
             </div>
           </div>
 
