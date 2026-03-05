@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
+import AdminDashboard from './AdminDashboard';
 import { 
   Gamepad2, 
   History, 
@@ -48,12 +49,19 @@ const App = () => {
   const [isSplashScreen, setIsSplashScreen] = useState(true);
   const [authState, setAuthState] = useState('login'); // 'login', 'authenticated'
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [userData, setUserData] = useState({
     name: '',
     email: '',
     image: '',
     sub: ''
   });
+
+  // Admin emails list (dapat disesuaikan dengan backend)
+  const ADMIN_EMAILS = [
+    'admin@gamepay.com',
+    'jagres@gmail.com' // Contoh email admin
+  ];
 
   // Efek Splash Screen selama 3 detik
   useEffect(() => {
@@ -84,6 +92,10 @@ const App = () => {
         image: decodedToken.picture,
         sub: decodedToken.sub
       });
+
+      // Cek apakah user adalah admin
+      const adminStatus = ADMIN_EMAILS.includes(decodedToken.email);
+      setIsAdmin(adminStatus);
 
       // Simulasi delay untuk proses auth
       setTimeout(() => {
@@ -205,7 +217,18 @@ const App = () => {
   }
 
   // Render Authenticated App
-  return (
+  if (authState === 'authenticated') {
+    // Jika user adalah admin, tampilkan Admin Dashboard
+    if (isAdmin) {
+      return <AdminDashboard userData={userData} onLogout={() => {
+        setAuthState('login');
+        setIsAdmin(false);
+        setActiveTab('home');
+      }} />;
+    }
+
+    // Jika user bukan admin, tampilkan app normal
+    return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans select-none overflow-x-hidden animate-in fade-in duration-700">
       
       {/* HEADER SECTION */}
@@ -480,7 +503,8 @@ const App = () => {
         </nav>
       </div>
     </div>
-  );
+    );
+  }
 };
 
 export default App;
