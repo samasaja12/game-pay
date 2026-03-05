@@ -60,7 +60,8 @@ const App = () => {
   // Admin emails list (dapat disesuaikan dengan backend)
   const ADMIN_EMAILS = [
     'admin@gamepay.com',
-    'jagres@gmail.com' // Contoh email admin
+    'jagres@gmail.com',
+    'abdullahrosid102@gmail.com' // Admin user
   ];
 
   // Efek Splash Screen selama 3 detik
