@@ -128,7 +128,7 @@ const AdminDashboard = ({ userData, onLogout, onBackToUser }) => {
 
       {/* SIDEBAR - Mobile & Desktop */}
       <aside className={`
-        fixed md:static top-16 left-0 h-[calc(100vh-64px)] bg-slate-800 text-white w-64 transition-all duration-300 z-50
+        fixed md:static top-16 left-0 h-[calc(100vh-64px)] bg-emerald-700 text-white w-64 transition-all duration-300 z-50
         ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         overflow-y-auto
       `}>
