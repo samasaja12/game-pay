@@ -65,8 +65,28 @@ const App = () => {
     'abdullahrosid102@gmail.com' // Admin user
   ];
 
-  // Efek Splash Screen selama 3 detik
+  // Efek Splash Screen selama 3 detik + Restore dari localStorage
   useEffect(() => {
+    // Coba restore session dari localStorage
+    const savedAuthState = localStorage.getItem('authState');
+    const savedUserData = localStorage.getItem('userData');
+    const savedIsAdmin = localStorage.getItem('isAdmin');
+
+    if (savedAuthState === 'authenticated' && savedUserData) {
+      try {
+        const parsedUserData = JSON.parse(savedUserData);
+        setUserData(parsedUserData);
+        setIsAdmin(JSON.parse(savedIsAdmin || 'false'));
+        setAuthState('authenticated');
+      } catch (error) {
+        console.error('Error restoring session:', error);
+        localStorage.removeItem('authState');
+        localStorage.removeItem('userData');
+        localStorage.removeItem('isAdmin');
+      }
+    }
+
+    // Splash screen timer
     const timer = setTimeout(() => {
       setIsSplashScreen(false);
     }, 3000);
@@ -88,12 +108,14 @@ const App = () => {
       const decodedToken = JSON.parse(jsonPayload);
       
       // Simpan user data
-      setUserData({
+      const newUserData = {
         name: decodedToken.name,
         email: decodedToken.email,
         image: decodedToken.picture,
         sub: decodedToken.sub
-      });
+      };
+      
+      setUserData(newUserData);
 
       // Cek apakah user adalah admin
       const adminStatus = ADMIN_EMAILS.includes(decodedToken.email);
@@ -103,6 +125,12 @@ const App = () => {
       setTimeout(() => {
         setIsLoggingIn(false);
         setAuthState('authenticated');
+        
+        // Simpan ke localStorage untuk persistent session
+        localStorage.setItem('authState', 'authenticated');
+        localStorage.setItem('userData', JSON.stringify(newUserData));
+        localStorage.setItem('isAdmin', JSON.stringify(adminStatus));
+        
         // Jika admin, langsung ke admin dashboard
         if (adminStatus) {
           setActiveTab('admin-dashboard');
@@ -118,6 +146,22 @@ const App = () => {
   const handleGoogleLoginError = () => {
     setIsLoggingIn(false);
     alert('Login dengan Google gagal. Silakan coba lagi.');
+  };
+
+  // Handle Logout - Clear localStorage & reset state
+  const handleLogout = () => {
+    localStorage.removeItem('authState');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('isAdmin');
+    setAuthState('login');
+    setIsAdmin(false);
+    setActiveTab('home');
+    setUserData({
+      name: '',
+      email: '',
+      image: '',
+      sub: ''
+    });
   };
 
   // Data untuk 5 Banner Slide
@@ -229,11 +273,7 @@ const App = () => {
       return (
         <AdminDashboard 
           userData={userData} 
-          onLogout={() => {
-            setAuthState('login');
-            setIsAdmin(false);
-            setActiveTab('home');
-          }}
+          onLogout={handleLogout}
           onBackToUser={() => setActiveTab('profile')}
         />
       );
@@ -486,10 +526,7 @@ const App = () => {
                 </button>
               ))}
               <button 
-                onClick={() => {
-                  setAuthState('login');
-                  setActiveTab('home');
-                }}
+                onClick={handleLogout}
                 className="w-full flex items-center gap-4 p-5 text-red-500 hover:bg-red-50 transition-colors"
               >
                  <div className="p-2.5 rounded-2xl bg-white border border-red-100 shadow-sm">
