@@ -71,18 +71,28 @@ const App = () => {
     const savedAuthState = localStorage.getItem('authState');
     const savedUserData = localStorage.getItem('userData');
     const savedIsAdmin = localStorage.getItem('isAdmin');
+    const savedActiveTab = localStorage.getItem('activeTab');
 
     if (savedAuthState === 'authenticated' && savedUserData) {
       try {
         const parsedUserData = JSON.parse(savedUserData);
+        const parsedIsAdmin = JSON.parse(savedIsAdmin || 'false');
         setUserData(parsedUserData);
-        setIsAdmin(JSON.parse(savedIsAdmin || 'false'));
+        setIsAdmin(parsedIsAdmin);
         setAuthState('authenticated');
+        
+        // Restore activeTab (jika admin, pastikan ke admin-dashboard saat restore)
+        if (parsedIsAdmin && savedActiveTab === 'admin-dashboard') {
+          setActiveTab('admin-dashboard');
+        } else if (savedActiveTab) {
+          setActiveTab(savedActiveTab);
+        }
       } catch (error) {
         console.error('Error restoring session:', error);
         localStorage.removeItem('authState');
         localStorage.removeItem('userData');
         localStorage.removeItem('isAdmin');
+        localStorage.removeItem('activeTab');
       }
     }
 
@@ -131,9 +141,10 @@ const App = () => {
         localStorage.setItem('userData', JSON.stringify(newUserData));
         localStorage.setItem('isAdmin', JSON.stringify(adminStatus));
         
-        // Jika admin, langsung ke admin dashboard
+        // Jika admin, langsung ke admin dashboard dan simpan ke localStorage
         if (adminStatus) {
           setActiveTab('admin-dashboard');
+          localStorage.setItem('activeTab', 'admin-dashboard');
         }
       }, 1500);
     } catch (error) {
@@ -153,6 +164,7 @@ const App = () => {
     localStorage.removeItem('authState');
     localStorage.removeItem('userData');
     localStorage.removeItem('isAdmin');
+    localStorage.removeItem('activeTab');
     setAuthState('login');
     setIsAdmin(false);
     setActiveTab('home');
@@ -163,6 +175,13 @@ const App = () => {
       sub: ''
     });
   };
+
+  // Save activeTab ke localStorage setiap kali berubah (hanya saat authenticated)
+  useEffect(() => {
+    if (authState === 'authenticated') {
+      localStorage.setItem('activeTab', activeTab);
+    }
+  }, [activeTab, authState]);
 
   // Data untuk 5 Banner Slide
   const promoBanners = [
