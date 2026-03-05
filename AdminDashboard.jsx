@@ -36,13 +36,6 @@ import {
 const AdminDashboard = ({ userData, onLogout, onBackToUser }) => {
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-
-  // optionally auto-open sidebar on mobile only
-  useEffect(() => {
-    if (window.innerWidth < 768) {
-      setIsMobileSidebarOpen(true);
-    }
-  }, []);
   const [searchQuery, setSearchQuery] = useState('');
   const [editingBalance, setEditingBalance] = useState(false);
   const [adminBalance, setAdminBalance] = useState('Rp 2.450.000');
