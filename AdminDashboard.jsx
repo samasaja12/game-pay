@@ -98,7 +98,7 @@ const AdminDashboard = ({ userData, onLogout, onBackToUser }) => {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
-              className="md:hidden p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-700"
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-700"
             >
               {isMobileSidebarOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
