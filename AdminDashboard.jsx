@@ -26,7 +26,6 @@ import {
   ArrowLeft,
   PieChart,
   Package,
-  ArrowLeft,
   Save
 } from 'lucide-react';
 

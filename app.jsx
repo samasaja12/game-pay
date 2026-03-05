@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import AdminDashboard from './AdminDashboard';
 import { 
@@ -35,7 +35,8 @@ import {
   Lock,
   UserPlus,
   ArrowRight,
-  CreditCard as CardIcon
+  CreditCard as CardIcon,
+  BarChart3
 } from 'lucide-react';
 
 /**
@@ -219,16 +220,22 @@ const App = () => {
 
   // Render Authenticated App
   if (authState === 'authenticated') {
-    // Jika user adalah admin, tampilkan Admin Dashboard
-    if (isAdmin) {
-      return <AdminDashboard userData={userData} onLogout={() => {
-        setAuthState('login');
-        setIsAdmin(false);
-        setActiveTab('home');
-      }} />;
+    // Jika admin dan view admin-dashboard, tampilkan AdminDashboard
+    if (isAdmin && activeTab === 'admin-dashboard') {
+      return (
+        <AdminDashboard 
+          userData={userData} 
+          onLogout={() => {
+            setAuthState('login');
+            setIsAdmin(false);
+            setActiveTab('home');
+          }}
+          onBackToUser={() => setActiveTab('profile')}
+        />
+      );
     }
 
-    // Jika user bukan admin, tampilkan app normal
+    // Jika user bukan admin atau admin view normal, tampilkan app normal
     return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans select-none overflow-x-hidden animate-in fade-in duration-700">
       
@@ -243,7 +250,7 @@ const App = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold tracking-tight">
-                    {showBalance ? 'Rp 2.450.000' : 'Rp ••••••••'}
+                    {showBalance ? 'Rp 2.450.000' : 'Rp ÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇó'}
                   </span>
                   <button onClick={() => setShowBalance(!showBalance)} className="hover:text-emerald-200">
                     {showBalance ? <EyeOff size={14} /> : <Eye size={14} />}
@@ -393,7 +400,7 @@ const App = () => {
                       </div>
                       <div>
                         <p className="font-bold text-sm text-slate-800">Diamond MLBB 250</p>
-                        <p className="text-[10px] text-slate-400">Hari ini • 10:30</p>
+                        <p className="text-[10px] text-slate-400">Hari ini ÔÇó 10:30</p>
                       </div>
                     </div>
                     <p className="font-bold text-emerald-600 text-sm">Rp 75.000</p>
@@ -437,6 +444,23 @@ const App = () => {
               <div className="p-4 bg-emerald-50/50">
                 <h3 className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em] mb-1 px-1">Akun Saya</h3>
               </div>
+              {isAdmin && (
+                <button 
+                  onClick={() => setActiveTab('admin-dashboard')}
+                  className="w-full flex items-center justify-between p-5 hover:bg-emerald-50 transition-colors group text-left bg-emerald-50/50 border-b border-emerald-100"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="p-2.5 rounded-2xl bg-white border border-emerald-200 shadow-sm text-emerald-600">
+                      <BarChart3 size={20} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-emerald-700">Admin Dashboard</p>
+                      <p className="text-[10px] text-emerald-600 font-medium">Kelola aplikasi & data</p>
+                    </div>
+                  </div>
+                  <ChevronRight size={18} className="text-emerald-500 group-hover:text-emerald-700 transition-colors" />
+                </button>
+              )}
               {[
                 { icon: <ShieldCheck size={20} />, label: 'Keamanan Akun', sub: 'PIN, Password, Biometrik', color: 'text-blue-500' },
                 { icon: <CardIcon size={20} />, label: 'Metode Pembayaran', sub: 'Kartu Debit/Kredit, E-Wallet', color: 'text-purple-500' },
