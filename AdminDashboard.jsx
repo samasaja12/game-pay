@@ -23,6 +23,7 @@ import {
   Download,
   Bell,
   Home,
+  ArrowLeft,
   PieChart,
   Package,
   ArrowLeft,
@@ -33,7 +34,7 @@ import {
  * Admin Dashboard untuk GamePay
  * Mobile-first, fully responsive, integrated with main app
  */
-const AdminDashboard = ({ userData, onLogout }) => {
+const AdminDashboard = ({ userData, onLogout, onBackToUser }) => {
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -155,8 +156,15 @@ const AdminDashboard = ({ userData, onLogout }) => {
           ))}
         </nav>
 
-        {/* Sidebar Footer - Logout */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-700">
+        {/* Sidebar Footer - Back & Logout */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-700 space-y-2">
+          <button
+            onClick={onBackToUser}
+            className="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-blue-500/20 hover:text-blue-400 rounded-lg transition-all font-medium"
+          >
+            <ArrowLeft size={20} />
+            <span>Back to User View</span>
+          </button>
           <button
             onClick={onLogout}
             className="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-red-500/20 hover:text-red-400 rounded-lg transition-all font-medium"
